@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SAPA - Solusi Aksesibilitas Cerdas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="container nav-content">
+        <div class="logo">SAPA</div>
+        <div class="nav-links">
+          <a href="#fitur">Fitur</a>
+          <a href="#cara-kerja">Cara Kerja</a>
+          <a href="#simulasi" class="btn btn-sm btn-primary">Coba Demo</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <div class="badge">Teknologi Bantuan Dengar 2026</div>
+          <h1>Komunikasi Tanpa Hambatan. <br />Untuk Semua.</h1>
+          <p class="lead">
+            Kacamata pintar dengan transkripsi suara real-time. Membantu Teman
+            Tuli memahami percakapan sehari-hari dengan instan dan akurat.
+          </p>
+          <div class="hero-actions">
+            <button id="start-simulation-btn" class="btn btn-primary">
+              Mulai Simulasi
+            </button>
+            <a href="#tantangan" class="btn btn-outline">Coba Tantangan</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="device-mockup">
+            <div class="screen-content">
+              <div class="chat-bubble left">Halo, selamat siang.</div>
+              <div class="chat-bubble right">Siang, ada yang bisa dibantu?</div>
+              <div class="chat-bubble left">Saya mencari kacamata SAPA.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POV Simulation Section -->
+    <section id="simulasi" class="simulation-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>👁️ Simulasi POV Tunarungu</h2>
+          <p>
+            Lihat dunia dari sudut pandang penyandang gangguan pendengaran. Lalu
+            aktifkan SAPA.
+          </p>
+        </div>
+
+        <div class="simulation-card">
+          <div class="sim-header">
+            <div class="sim-status">
+              <span class="status-dot"></span>
+              <span id="system-status-text">Mode: Tanpa Alat Bantu</span>
+            </div>
+            <div class="sim-controls">
+              <span class="label">Kacamata SAPA:</span>
+              <button
+                id="toggle-sapa-btn"
+                class="toggle-switch"
+                aria-pressed="false"
+              >
+                <span class="toggle-track">
+                  <span class="toggle-thumb"></span>
+                </span>
+                <span class="toggle-label">OFF</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="pov-scene" id="pov-scene">
+            <div class="glasses-overlay hidden" id="glasses-overlay">
+              <div class="glasses-hud-top">
+                <span class="hud-indicator">● SAPA Active</span>
+                <span class="hud-indicator">ID: Bahasa</span>
+              </div>
+              <div class="glasses-hud-bottom" id="glasses-hud-text">
+                Mendeteksi percakapan...
+              </div>
+            </div>
+
+            <div class="scene-bg">
+              <div class="person person-1">
+                <div class="person-head">
+                  <div class="person-eye"></div>
+                  <div class="person-mouth" id="mouth-1"></div>
+                </div>
+                <div class="person-body"></div>
+                <div class="speech-indicator" id="speech-1">
+                  <span class="speech-dot"></span
+                  ><span class="speech-dot"></span
+                  ><span class="speech-dot"></span>
+                </div>
+                <div class="garbled-bubble" id="garbled-1">···???···</div>
+                <div class="clear-bubble hidden" id="clear-1"></div>
+              </div>
+              <div class="person person-2">
+                <div class="person-head">
+                  <div class="person-eye"></div>
+                  <div class="person-mouth" id="mouth-2"></div>
+                </div>
+                <div class="person-body"></div>
+                <div class="speech-indicator" id="speech-2">
+                  <span class="speech-dot"></span
+                  ><span class="speech-dot"></span
+                  ><span class="speech-dot"></span>
+                </div>
+                <div class="garbled-bubble" id="garbled-2">···???···</div>
+                <div class="clear-bubble hidden" id="clear-2"></div>
+              </div>
+              <div class="person person-3">
+                <div class="person-head">
+                  <div class="person-eye"></div>
+                  <div class="person-mouth" id="mouth-3"></div>
+                </div>
+                <div class="person-body"></div>
+                <div class="speech-indicator" id="speech-3">
+                  <span class="speech-dot"></span
+                  ><span class="speech-dot"></span
+                  ><span class="speech-dot"></span>
+                </div>
+                <div class="garbled-bubble" id="garbled-3">···???···</div>
+                <div class="clear-bubble hidden" id="clear-3"></div>
+              </div>
+            </div>
+
+            <div class="pov-message" id="pov-message-off">
+              😔 Mereka semua berbicara, tapi Anda tidak bisa memahami apapun...
+            </div>
+            <div class="pov-message success hidden" id="pov-message-on">
+              ✅ Kacamata SAPA menerjemahkan percakapan secara real-time!
+            </div>
+          </div>
+
+          <div class="sim-footer">
+            <p id="simulation-insight">
+              Ini adalah pengalaman sehari-hari penyandang tunarungu. Aktifkan
+              SAPA untuk melihat perbedaannya.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lip Reading Challenge -->
+    <section id="tantangan" class="challenge-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>� Tantangan: Baca Gerak Bibir</h2>
+          <p>
+            Bisakah Anda memahami apa yang dikatakan hanya dari gerakan bibir?
+            Ini yang dialami Teman Tuli setiap hari.
+          </p>
+        </div>
+
+        <div class="challenge-card">
+          <div class="challenge-header">
+            <span class="challenge-badge" id="challenge-progress"
+              >Soal 1 dari 5</span
+            >
+            <span class="challenge-score" id="challenge-score"
+              >Skor: 0 / 0</span
+            >
+          </div>
+
+          <div class="challenge-body">
+            <!-- Video Call Style Face -->
+            <div class="videocall-frame">
+              <div class="videocall-bar">
+                <span class="vc-dot red"></span>
+                <span class="vc-dot yellow"></span>
+                <span class="vc-dot green"></span>
+                <span class="vc-name" id="vc-speaker-name">Pembicara</span>
+                <span class="vc-muted">🔇 MUTED</span>
+              </div>
+              <div class="face-container" id="face-container">
+                <!-- SVG Face -->
+                <svg viewBox="0 0 200 220" class="face-svg" id="face-svg">
+                  <!-- Hair -->
+                  <ellipse cx="100" cy="65" rx="62" ry="50" fill="#374151" />
+                  <!-- Head -->
+                  <ellipse cx="100" cy="100" rx="55" ry="65" fill="#FBBF68" />
+                  <!-- Left Eye -->
+                  <ellipse cx="78" cy="90" rx="8" ry="5" fill="#1e293b" />
+                  <!-- Right Eye -->
+                  <ellipse cx="122" cy="90" rx="8" ry="5" fill="#1e293b" />
+                  <!-- Nose -->
+                  <ellipse
+                    cx="100"
+                    cy="108"
+                    rx="4"
+                    ry="6"
+                    fill="#e5a84e"
+                    opacity="0.6"
+                  />
+                  <!-- Mouth (animated) -->
+                  <ellipse
+                    id="lip-mouth"
+                    cx="100"
+                    cy="130"
+                    rx="12"
+                    ry="3"
+                    fill="#c0392b"
+                  />
+                  <!-- Eyebrows -->
+                  <line
+                    x1="65"
+                    y1="78"
+                    x2="90"
+                    y2="80"
+                    stroke="#374151"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="110"
+                    y1="80"
+                    x2="135"
+                    y2="78"
+                    stroke="#374151"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                  />
+                  <!-- Ears -->
+                  <ellipse cx="45" cy="100" rx="8" ry="14" fill="#FBBF68" />
+                  <ellipse cx="155" cy="100" rx="8" ry="14" fill="#FBBF68" />
+                  <!-- Shoulders/Body top -->
+                  <path
+                    d="M 40 175 Q 40 155 70 150 L 130 150 Q 160 155 160 175 L 160 220 L 40 220 Z"
+                    fill="#3b82f6"
+                  />
+                  <!-- Neck -->
+                  <rect
+                    x="88"
+                    y="155"
+                    width="24"
+                    height="10"
+                    fill="#FBBF68"
+                    rx="4"
+                  />
+                </svg>
+
+                <!-- Speaking animation label -->
+                <div class="speaking-label" id="speaking-label">
+                  Sedang berbicara...
+                </div>
+              </div>
+            </div>
+
+            <p class="challenge-question" id="challenge-question">
+              Apa yang dia katakan?
+            </p>
+
+            <div class="challenge-options" id="challenge-options">
+              <!-- Filled by JS -->
+            </div>
+          </div>
+
+          <div class="challenge-footer">
+            <p class="challenge-message" id="challenge-message">
+              Perhatikan gerakan bibir, lalu tebak kata yang diucapkan.
+            </p>
+            <div class="challenge-footer-btns">
+              <button id="replay-btn" class="btn btn-outline">
+                🔄 Putar Ulang
+              </button>
+              <button id="next-challenge-btn" class="btn btn-primary hidden">
+                Soal Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="challenge-insight">
+          <p>
+            💡 <strong>Tahukah Anda?</strong> Membaca gerak bibir hanya bisa
+            menangkap sekitar 30-40% informasi. SAPA mengisi 60% sisanya dengan
+            transkripsi AI real-time.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="fitur" class="features">
+      <div class="container">
+        <div class="section-header">
+          <h2>Fitur Unggulan</h2>
+          <p>Teknologi yang dirancang untuk kebutuhan Anda.</p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>Real-time Transcription</h3>
+            <p>Waktu latensi di bawah 200ms untuk percakapan yang alami.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Noise Cancellation</h3>
+            <p>Fokus pada suara pembicara, mengabaikan kebisingan latar.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Desain Ergonomis</h3>
+            <p>Nyaman dipakai seharian, ringan dan tahan lama.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cara Kerja -->
+    <section id="cara-kerja" class="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <h2>Cara Kerja SAPA</h2>
+          <p>Teknologi canggih yang bekerja dalam sekejap mata.</p>
+        </div>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">01</div>
+            <h3>Menangkap Suara</h3>
+            <p>
+              Mikrofon array menangkap suara percakapan dan memisahkan dari
+              kebisingan.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">02</div>
+            <h3>Memproses Bahasa</h3>
+            <p>
+              AI memproses audio menjadi teks secara lokal dengan akurasi
+              tinggi.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">03</div>
+            <h3>Menampilkan Teks</h3>
+            <p>
+              Teks ditampilkan pada lensa augmented reality tepat di pandangan
+              Anda.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Footer -->
+    <section class="cta-footer">
+      <div class="container">
+        <h2>Wujudkan Inklusi Hari Ini</h2>
+        <p>
+          Bergabunglah dengan ribuan pengguna yang telah merasakan kebebasan
+          berkomunikasi.
+        </p>
+        <button class="btn btn-white">Pesan Sekarang</button>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container footer-content">
+        <div class="footer-logo">SAPA</div>
+        <p>&copy; 2026 SAPA Technology. Hak Cipta Dilindungi.</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
