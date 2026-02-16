@@ -333,4 +333,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize first challenge
     loadChallenge(0);
+    // ============================
+    // ORDER POPUP
+    // ============================
+    const orderBtn = document.getElementById('pesan-sekarang-btn');
+    const orderModal = document.getElementById('order-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+
+    if (orderBtn && orderModal) {
+        orderBtn.addEventListener('click', () => {
+            orderModal.classList.remove('hidden');
+        });
+    }
+
+    if (closeModalBtn && orderModal) {
+        closeModalBtn.addEventListener('click', () => {
+            orderModal.classList.add('hidden');
+        });
+    }
+
+    // Close on click outside
+    window.addEventListener('click', (e) => {
+        if (e.target === orderModal) {
+            orderModal.classList.add('hidden');
+        }
+    });
+
 });

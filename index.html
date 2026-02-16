@@ -16,7 +16,9 @@
     <!-- Navbar -->
     <nav class="navbar">
       <div class="container nav-content">
-        <div class="logo">SAPA</div>
+        <div class="logo">
+          <img src="logo.png" alt="SAPA Logo" />
+        </div>
         <div class="nav-links">
           <a href="#fitur">Fitur</a>
           <a href="#cara-kerja">Cara Kerja</a>
@@ -419,7 +421,9 @@
           Bergabunglah dengan ribuan pengguna yang telah merasakan kebebasan
           berkomunikasi.
         </p>
-        <button class="btn btn-white">Pesan Sekarang</button>
+        <button id="pesan-sekarang-btn" class="btn btn-white">
+          Pesan Sekarang
+        </button>
       </div>
     </section>
 
@@ -516,6 +520,24 @@
         </div>
       </div>
     </footer>
+
+    <!-- Order Popup Modal -->
+    <div id="order-modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>🎉 Terimakasih!</h3>
+        </div>
+        <div class="modal-body">
+          <p>
+            Anda telah bergabung dengan SAPA. Tim kami akan segera menghubungi
+            Anda untuk langkah selanjutnya.
+          </p>
+        </div>
+        <button id="close-modal-btn" class="btn btn-primary btn-full">
+          Tutup
+        </button>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>
