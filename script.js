@@ -1,3 +1,4 @@
+// SAPA Landing Page Script
 document.addEventListener('DOMContentLoaded', () => {
     // ==================
     // DOM REFERENCES
