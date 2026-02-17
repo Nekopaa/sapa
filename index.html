@@ -193,71 +193,16 @@
                 <span class="vc-muted">🔇 MUTED</span>
               </div>
               <div class="face-container" id="face-container">
-                <!-- SVG Face -->
-                <svg viewBox="0 0 200 220" class="face-svg" id="face-svg">
-                  <!-- Hair -->
-                  <ellipse cx="100" cy="65" rx="62" ry="50" fill="#374151" />
-                  <!-- Head -->
-                  <ellipse cx="100" cy="100" rx="55" ry="65" fill="#FBBF68" />
-                  <!-- Left Eye -->
-                  <ellipse cx="78" cy="90" rx="8" ry="5" fill="#1e293b" />
-                  <!-- Right Eye -->
-                  <ellipse cx="122" cy="90" rx="8" ry="5" fill="#1e293b" />
-                  <!-- Nose -->
-                  <ellipse
-                    cx="100"
-                    cy="108"
-                    rx="4"
-                    ry="6"
-                    fill="#e5a84e"
-                    opacity="0.6"
-                  />
-                  <!-- Mouth (animated) -->
-                  <ellipse
-                    id="lip-mouth"
-                    cx="100"
-                    cy="130"
-                    rx="12"
-                    ry="3"
-                    fill="#c0392b"
-                  />
-                  <!-- Eyebrows -->
-                  <line
-                    x1="65"
-                    y1="78"
-                    x2="90"
-                    y2="80"
-                    stroke="#374151"
-                    stroke-width="3"
-                    stroke-linecap="round"
-                  />
-                  <line
-                    x1="110"
-                    y1="80"
-                    x2="135"
-                    y2="78"
-                    stroke="#374151"
-                    stroke-width="3"
-                    stroke-linecap="round"
-                  />
-                  <!-- Ears -->
-                  <ellipse cx="45" cy="100" rx="8" ry="14" fill="#FBBF68" />
-                  <ellipse cx="155" cy="100" rx="8" ry="14" fill="#FBBF68" />
-                  <!-- Shoulders/Body top -->
-                  <path
-                    d="M 40 175 Q 40 155 70 150 L 130 150 Q 160 155 160 175 L 160 220 L 40 220 Z"
-                    fill="#3b82f6"
-                  />
-                  <!-- Neck -->
-                  <rect
-                    x="88"
-                    y="155"
-                    width="24"
-                    height="10"
-                    fill="#FBBF68"
-                    rx="4"
-                  />
-                </svg>
+                <video
+                  id="challenge-video"
+                  class="challenge-video"
+                  playsinline
+                  muted
+                  loop
+                >
+                  <source src="" type="video/mp4" />
+                  Browser Anda tidak mendukung video.
+                </video>
 
                 <!-- Speaking animation label -->
                 <div class="speaking-label" id="speaking-label">
@@ -510,7 +455,8 @@
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
-              Jl. Kanigoro Kanigoro, Bongan, Bleberan, Kec. Jatirejo,<br />Kabupaten Mojokerto, Jawa Timur 61373
+              Jl. Kanigoro Kanigoro, Bongan, Bleberan, Kec. Jatirejo,<br />Kabupaten
+              Mojokerto, Jawa Timur 61373
             </p>
           </div>
         </div>
