@@ -256,4 +256,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize first challenge
     loadChallenge(0);
+
+    // ============================
+    // MODAL LOGIC
+    // ============================
+    const orderModal = document.getElementById('order-modal');
+    const pesanBtn = document.getElementById('pesan-sekarang-btn');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const modalContent = document.querySelector('.modal-content');
+
+    if (pesanBtn && orderModal) {
+        pesanBtn.addEventListener('click', () => {
+            orderModal.classList.remove('hidden');
+        });
+    }
+
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', () => {
+            orderModal.classList.add('hidden');
+        });
+    }
+
+    // Close on click outside
+    if (orderModal) {
+        orderModal.addEventListener('click', (e) => {
+            if (e.target === orderModal) {
+                orderModal.classList.add('hidden');
+            }
+        });
+    }
+    
+    // Also handle "Pesan Sekarang" in CTA footer if class-based (in case there are others)
+    document.querySelectorAll('.btn-white').forEach(btn => {
+        if (btn.textContent.trim() === 'Pesan Sekarang') {
+            btn.addEventListener('click', () => {
+                if(orderModal) orderModal.classList.remove('hidden');
+            });
+        }
+    });
 });
