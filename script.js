@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isSapaActive = false;
 
     // ============================
-    // POV SIMULATION (unchanged)
+    // POV SIMULATION
     // ============================
     const conversations = [
         { person: 1, text: "Permisi, kursi ini kosong?" },
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================
     // LIP READING CHALLENGE
     // ============================
-    const lipMouth = document.getElementById('lip-mouth');
+    const challengeVideo = document.getElementById('challenge-video');
     const speakingLabel = document.getElementById('speaking-label');
     const challengeOptions = document.getElementById('challenge-options');
     const challengeProgress = document.getElementById('challenge-progress');
@@ -132,116 +132,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const challenges = [
         {
             word: "Halo",
-            speaker: "Andi",
-            options: ["Halo", "Bisa", "Mana", "Siapa"],
-            // Mouth animation: H-a-l-o (open wide for 'a', narrow for 'l', round for 'o')
-            mouthFrames: [
-                { rx: 8, ry: 2 },   // H - slightly open
-                { rx: 14, ry: 10 }, // a - wide open
-                { rx: 10, ry: 4 },  // l - medium
-                { rx: 12, ry: 9 },  // o - round
-                { rx: 12, ry: 3 },  // closing
-            ]
+            speaker: "Pembicara 1",
+            videoParams: { src: "HALO.mp4" },
+            options: ["Halo", "Bisa", "Mana", "Siapa"]
         },
         {
-            word: "Terima kasih",
-            speaker: "Budi",
-            options: ["Terima kasih", "Selamat pagi", "Permisi ya", "Boleh minta"],
-            mouthFrames: [
-                { rx: 8, ry: 2 },   // T
-                { rx: 12, ry: 6 },  // e
-                { rx: 10, ry: 4 },  // ri
-                { rx: 14, ry: 8 },  // ma
-                { rx: 8, ry: 3 },   // (pause)
-                { rx: 10, ry: 5 },  // ka
-                { rx: 8, ry: 3 },   // si
-                { rx: 14, ry: 7 },  // h
-                { rx: 12, ry: 3 },  // closing
-            ]
+            word: "Nama saya",
+            speaker: "Pembicara 2",
+            videoParams: { src: "NAMA SAYA.mp4" },
+            options: ["Nama saya", "Selamat pagi", "Permisi ya", "Boleh minta"]
         },
         {
             word: "Apa kabar",
-            speaker: "Citra",
-            options: ["Apa kabar", "Ada apa", "Ayo pergi", "Aku lapar"],
-            mouthFrames: [
-                { rx: 14, ry: 10 }, // A - wide
-                { rx: 8, ry: 3 },   // p
-                { rx: 14, ry: 8 },  // a
-                { rx: 8, ry: 2 },   // (pause)
-                { rx: 10, ry: 5 },  // ka
-                { rx: 8, ry: 3 },   // b
-                { rx: 14, ry: 9 },  // a
-                { rx: 10, ry: 4 },  // r
-                { rx: 12, ry: 3 },  // closing
-            ]
+            speaker: "Pembicara 3",
+            videoParams: { src: "APA KABAR.mp4" },
+            options: ["Apa kabar", "Ada apa", "Ayo pergi", "Aku lapar"]
         },
         {
-            word: "Tolong",
-            speaker: "Dewi",
-            options: ["Tolong", "Datang", "Pulang", "Duduk"],
-            mouthFrames: [
-                { rx: 8, ry: 2 },   // T
-                { rx: 12, ry: 10 }, // o - round
-                { rx: 10, ry: 4 },  // l
-                { rx: 12, ry: 9 },  // o - round
-                { rx: 8, ry: 4 },   // ng
-                { rx: 12, ry: 3 },  // closing
-            ]
+            word: "Asal saya Malang",
+            speaker: "Pembicara 4",
+            videoParams: { src: "ASAL SAYA MALANG.mp4" },
+            options: ["Asal saya Malang", "Saya dari Jakarta", "Kapan kamu pulang", "Duduk sini dulu"]
         },
         {
-            word: "Saya tidak mengerti",
-            speaker: "Eko",
-            options: ["Saya tidak mengerti", "Saya mau pergi", "Bisa bantu saya", "Dimana tempatnya"],
-            mouthFrames: [
-                { rx: 8, ry: 3 },   // Sa
-                { rx: 14, ry: 8 },  // ya
-                { rx: 8, ry: 2 },   // (pause)
-                { rx: 8, ry: 3 },   // ti
-                { rx: 10, ry: 5 },  // dak
-                { rx: 8, ry: 2 },   // (pause)
-                { rx: 10, ry: 5 },  // me
-                { rx: 8, ry: 4 },   // nge
-                { rx: 10, ry: 4 },  // r
-                { rx: 8, ry: 3 },   // ti
-                { rx: 12, ry: 3 },  // closing
-            ]
+            word: "Hobi saya menyanyi",
+            speaker: "Pembicara 5",
+            videoParams: { src: "HOBI SAYA MENYANYI.mp4" },
+            options: ["Hobi saya menyanyi", "Saya mau pergi", "Bisa bantu saya", "Dimana tempatnya"]
         }
     ];
 
     let currentChallengeIdx = 0;
     let score = 0;
     let totalAnswered = 0;
-    let mouthAnimTimer = null;
-    let isAnimating = false;
-
-    function animateMouth(frames, onComplete) {
-        let frameIdx = 0;
-        isAnimating = true;
-        speakingLabel.textContent = "Sedang berbicara...";
-        speakingLabel.classList.add('active');
-
-        function nextFrame() {
-            if (frameIdx >= frames.length) {
-                // Reset mouth
-                lipMouth.setAttribute('rx', '12');
-                lipMouth.setAttribute('ry', '3');
-                speakingLabel.textContent = "Selesai berbicara";
-                speakingLabel.classList.remove('active');
-                isAnimating = false;
-                if (onComplete) onComplete();
-                return;
-            }
-
-            const frame = frames[frameIdx];
-            lipMouth.setAttribute('rx', frame.rx);
-            lipMouth.setAttribute('ry', frame.ry);
-            frameIdx++;
-
-            mouthAnimTimer = setTimeout(nextFrame, 280);
-        }
-
-        nextFrame();
-    }
 
     function loadChallenge(index) {
         const ch = challenges[index];
@@ -259,6 +182,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const existingReveal = document.querySelector('.sapa-reveal');
         if (existingReveal) existingReveal.remove();
 
+        // Load video
+        challengeVideo.src = ch.videoParams.src;
+        challengeVideo.load();
+        challengeVideo.play().catch(e => console.log("Auto-play blocked", e));
+        
+        speakingLabel.classList.add('active');
+
+
         // Build options (shuffled)
         const shuffled = [...ch.options].sort(() => Math.random() - 0.5);
         challengeOptions.innerHTML = '';
@@ -269,16 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('click', () => handleAnswer(btn, option, ch));
             challengeOptions.appendChild(btn);
         });
-
-        // Play mouth animation
-        setTimeout(() => {
-            animateMouth(ch.mouthFrames);
-        }, 500);
     }
 
     function handleAnswer(btn, selected, challenge) {
-        if (isAnimating) return; // Don't allow answering while animating
-
         // Disable all buttons
         challengeOptions.querySelectorAll('.option-btn').forEach(b => b.classList.add('disabled'));
         totalAnswered++;
@@ -319,9 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     replayBtn.addEventListener('click', () => {
-        if (isAnimating) return;
-        const ch = challenges[currentChallengeIdx];
-        animateMouth(ch.mouthFrames);
+        challengeVideo.currentTime = 0;
+        challengeVideo.play();
     });
 
     nextChallengeBtn.addEventListener('click', () => {
@@ -333,30 +256,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize first challenge
     loadChallenge(0);
-    // ============================
-    // ORDER POPUP
-    // ============================
-    const orderBtn = document.getElementById('pesan-sekarang-btn');
-    const orderModal = document.getElementById('order-modal');
-    const closeModalBtn = document.getElementById('close-modal-btn');
-
-    if (orderBtn && orderModal) {
-        orderBtn.addEventListener('click', () => {
-            orderModal.classList.remove('hidden');
-        });
-    }
-
-    if (closeModalBtn && orderModal) {
-        closeModalBtn.addEventListener('click', () => {
-            orderModal.classList.add('hidden');
-        });
-    }
-
-    // Close on click outside
-    window.addEventListener('click', (e) => {
-        if (e.target === orderModal) {
-            orderModal.classList.add('hidden');
-        }
-    });
-
 });
