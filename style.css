@@ -80,6 +80,332 @@ h1, h2, h3, .logo, .btn, .step-number { font-family: var(--font-heading); }
 .chat-bubble.left { background: #F1F5F9; align-self: flex-start; border-bottom-left-radius: 2px; }
 .chat-bubble.right { background: #DCFCE7; color: var(--primary-col); align-self: flex-end; border-bottom-right-radius: 2px; }
 
+/* Interactive Glasses Showcase */
+.glasses-showcase {
+    perspective: 1000px;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.glasses-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    height: 300px;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+    cursor: pointer; /* Clickable */
+}
+
+.glasses-img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));
+    transform: translateZ(20px);
+    transition: all 0.3s ease;
+}
+
+/* Hotspots and Annotations */
+.feature-group {
+    position: absolute;
+    z-index: 10;
+    transform: translateZ(50px);
+}
+
+.hotspot {
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    border: 2px solid var(--primary-col);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 20;
+}
+
+.hotspot:hover {
+    transform: scale(1.2);
+    background: #ffffff;
+}
+
+.hotspot-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--primary-col);
+    border-radius: 50%;
+}
+
+.feature-annotation {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    width: 200px;
+}
+
+.feature-group.active .feature-annotation {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.annotation-text {
+    background: #064e3b;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border: 1px solid #34d399;
+    text-align: left;
+    position: relative;
+    z-index: 15;
+}
+
+.annotation-text h4 {
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+    color: #34d399;
+}
+
+.annotation-text p {
+    font-size: 0.75rem;
+    line-height: 1.3;
+    color: #ecfdf5;
+}
+
+/* Dashed Lines Animation */
+.annotation-line {
+    position: absolute;
+    border: 2px dashed #10b981;
+    z-index: 5;
+    opacity: 0;
+    transform-origin: 0 0; /* Default origin, specific lines might override */
+    transition: opacity 0.1s;
+}
+
+.feature-group.active .annotation-line {
+    opacity: 1;
+    animation: drawLine 0.5s ease-out forwards;
+}
+
+@keyframes drawLine {
+    from {
+        clip-path: inset(0 100% 0 0); /* Reveal from left to right (default) */
+    }
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+/* Text Animation */
+.feature-group.active .annotation-text {
+    opacity: 0;
+    animation: fadeSlideIn 0.5s ease-out 0.3s forwards; /* Delay so line draws first */
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Specific Line Animations */
+
+/* Module (Left): Line draws Right to Left */
+#feature-group-module .annotation-line {
+    /* Existing position styles... */
+    transform-origin: right center; /* Grow from right */
+}
+#feature-group-module.active .annotation-line {
+    animation: drawLineLeft 0.5s ease-out forwards;
+}
+@keyframes drawLineLeft {
+    from { clip-path: inset(0 0 0 100%); }
+    to { clip-path: inset(0 0 0 0); }
+}
+
+/* Display (Bottom): Line draws Bottom to Top */
+#feature-group-display .annotation-line {
+    /* Existing... */
+    transform-origin: bottom center;
+}
+#feature-group-display.active .annotation-line {
+    animation: drawLineUp 0.5s ease-out forwards;
+}
+@keyframes drawLineUp {
+    from { clip-path: inset(100% 0 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
+
+/* Mic (Right): L-Shape, reveal Top then Right */
+#feature-group-mic .annotation-line {
+    /* Existing... */
+}
+#feature-group-mic.active .annotation-line {
+    animation: drawLineMic 0.6s ease-out forwards;
+}
+@keyframes drawLineMic {
+    0% { clip-path: inset(0 100% 100% 0); } /* Hidden */
+    50% { clip-path: inset(0 0 100% 0); }   /* Top seg visible */
+    100% { clip-path: inset(0 0 0 0); }      /* Full visible */
+}
+
+/* Specific Positions */
+
+/* Module (Left) */
+.feature-annotation.left {
+    bottom: 20px;
+    right: 36px; /* Position to the left of the hotspot */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: max-content;
+}
+.feature-annotation.left .annotation-text {
+    margin-right: -10px; /* Overlap slightly with line start if needed */
+    width: 180px;
+}
+.feature-annotation.left .annotation-line {
+    /* L-shape connecting text to hotspot */
+    width: 40px;
+    height: 90px;
+    right: -30px;
+    bottom: 0;
+    border-top: none;
+    border-right: 2px dashed #10b981;
+    border-bottom: 2px dashed #10b981;
+    border-left: none;
+    border-bottom-right-radius: 12px;
+}
+/* Re-adjusting for cleaner simple line */
+/* Let's make simpler straight lines or distinct L-shapes based on position relative to dot */
+
+/* Resetting for simpler approach: Text is absolutely positioned relative to group */
+.feature-annotation {
+    /* Reset width constraint for positioning */
+    width: auto;
+}
+
+/* Group Module: Left Side - Line goes Left then Down to text */
+#feature-group-module .feature-annotation.left {
+    position: absolute;
+    top: -20px;       /* Align text higher */
+    right: 60px;      /* Move text further left (away from hotspot) */
+}
+#feature-group-module .annotation-line {
+    position: absolute;
+    top: 12px;        /* Start from vertical center of text/hotspot alignment */
+    right: -60px;     /* Span the gap to the hotspot */
+    width: 60px;      /* Length of the horizontal part */
+    height: 40px;     /* Vertical part (if needed for L-shape) */
+    
+    /* Make it a straight horizontal line for now to be cleaner, or simple L */
+    /* Let's try a simple straight line connecting dot to text */
+    border-bottom: 2px dashed var(--primary-col);
+    transform: translateY(-50%);
+    
+    /* Remove boxiness */
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom-left-radius: 0;
+}
+/* Let's actually stick to the User's request for "Longer" and "Not boxy" 
+   Refining: Connect Hotspot (0,0 of feature-group) to Text.
+*/
+
+/* Module: Text is to the LEFT of the hotspot */
+#feature-group-module .feature-annotation.left {
+    top: 50%;
+    right: 50px; /* Distance from dot */
+    transform: translateY(-50%);
+    width: 200px;
+    text-align: right;
+}
+#feature-group-module .annotation-text {
+    width: 100%;
+}
+#feature-group-module .annotation-line {
+    top: 50%;
+    right: -50px; /* Connects text to dot */
+    width: 50px;
+    height: 0;
+    border-top: 2px dashed var(--primary-col);
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+}
+
+
+/* Display: Text is BELOW the hotspot */
+#feature-group-display .feature-annotation.bottom {
+    top: 60px; /* Distance below dot */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    text-align: center;
+}
+#feature-group-display .annotation-text {
+    width: 100%;
+}
+#feature-group-display .annotation-line {
+    top: -60px; /* Connects text to dot above */
+    left: 50%;
+    width: 0;
+    height: 60px;
+    border-left: 2px dashed var(--primary-col);
+    border-bottom: none;
+    border-top: none;
+    border-right: none;
+}
+
+
+/* Mic: Text is to the RIGHT and DOWN (L-shape) */
+#feature-group-mic .feature-annotation.right {
+    position: absolute;
+    top: 50px;      /* Position text slightly lower than hotspot */
+    left: 45px;     /* Position text to the right of hotspot */
+    transform: none;
+    width: 200px;
+    text-align: left;
+}
+#feature-group-mic .annotation-text {
+    width: 100%;
+}
+#feature-group-mic .annotation-line {
+    /* Line connects Top-Left of Text area (-45, -38 relative) back to Hotspot Center (0, 12) */
+    /* Target path: Start at Hotspot ~Right-Center (24, 12) -> Go Right -> Go Down -> Text Top-Left (45, 50) */
+    
+    position: absolute;
+    top: -38px;     /* (12px hotspot center - 50px text top) = -38px */
+    left: -21px;    /* (24px hotspot right - 45px text left) = -21px */
+    
+    width: 21px;    /* Horizontal span: 21px to bridge gap */
+    height: 38px;   /* Vertical span: 38px to bridge gap */
+    
+    /* Draw Top and Right borders for "Gamma" shape (Right -> Down) */
+    border-top: 2px dashed var(--primary-col);
+    border-right: 2px dashed var(--primary-col);
+    border-top-right-radius: 12px;
+    
+    border-bottom: none;
+    border-left: none;
+    pointer-events: none;
+    /* Opacity handled by generic class */
+}
+
 /* Section Header */
 .section-header { text-align: center; margin-bottom: 48px; }
 .section-header h2 { font-size: 2.25rem; color: var(--text-heading); margin-bottom: 12px; }

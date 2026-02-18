@@ -18,6 +18,71 @@ document.addEventListener('DOMContentLoaded', () => {
     let isSapaActive = false;
 
     // ============================
+    // INTERACTIVE GLASSES 3D (Logic is below)
+    // ============================
+
+    // ============================
+    // INTERACTIVE GLASSES 3D
+    // ============================
+    // ============================
+    // INTERACTIVE GLASSES 3D
+    // ============================
+    // ============================
+    // INTERACTIVE GLASSES 3D
+    // ============================
+    const glassesContainer = document.getElementById('glasses-container');
+    const glassesImg = document.getElementById('glasses-img');
+    const featureGroups = document.querySelectorAll('.feature-group');
+
+    let isFeaturesActive = false;
+
+    if (glassesContainer && glassesImg) {
+        // 3D Parallax Effect
+        glassesContainer.addEventListener('mousemove', (e) => {
+            const rect = glassesContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const xPct = x / rect.width;
+            const yPct = y / rect.height;
+
+            // Reduce rotation for subtler effect
+            const xRotation = (yPct - 0.5) * 20; 
+            const yRotation = (xPct - 0.5) * -20;
+
+            glassesImg.style.transform = `perspective(1000px) rotateX(${xRotation}deg) rotateY(${yRotation}deg) translateZ(20px)`;
+            
+            // Move feature groups to create depth
+            featureGroups.forEach(group => {
+                group.style.transform = `translateZ(50px) translateX(${(xPct - 0.5) * 15}px) translateY(${(yPct - 0.5) * 15}px)`;
+            });
+        });
+
+        glassesContainer.addEventListener('mouseleave', () => {
+             // Reset rotation on leave, but keep features open if active? 
+             // User asked "click to show", so maybe click to hide too.
+             // Let's keep the rotation reset.
+            glassesImg.style.transform = `perspective(1000px) rotateX(0) rotateY(0) translateZ(20px)`;
+            featureGroups.forEach(group => {
+                group.style.transform = `translateZ(50px)`;
+            });
+        });
+
+        // Click anywhere on container to toggle all features
+        glassesContainer.addEventListener('click', (e) => {
+            isFeaturesActive = !isFeaturesActive;
+            
+            if (isFeaturesActive) {
+                glassesContainer.classList.add('features-visible');
+                featureGroups.forEach(g => g.classList.add('active'));
+            } else {
+                glassesContainer.classList.remove('features-visible');
+                featureGroups.forEach(g => g.classList.remove('active'));
+            }
+        });
+    }
+
+    // ============================
     // POV SIMULATION
     // ============================
     const conversations = [
